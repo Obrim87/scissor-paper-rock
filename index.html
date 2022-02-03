@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scissor/Paper/Rock Game</title>
+</head>
+<body>
+    <script>
+        function playerInput() {
+            let selection = prompt('Enter either scissors, paper or rock');
+            selection = selection.toLowerCase();
+            if (selection === 'scissors' || selection === 'paper' || selection === 'rock') {
+                return selection;
+            } else {
+                alert('Invalid selection');
+            }
+        }
+
+        function computerInput(min, max) {
+            let randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+            let selection;
+                if (randomNumber == 1) {
+                    selection = 'scissors'; 
+                } else if (randomNumber == 2) {
+                    selection = 'paper';
+                } else if (randomNumber == 3) {
+                    selection = 'rock';
+                }
+            return selection;
+        }
+        
+        let computerSelection = computerInput(1, 3);
+        console.log(`Computer selected ${computerSelection}`)
+        let playerSelection = playerInput();
+        console.log(`Player selected ${playerSelection}`)
+
+        function playRound(computerSelection, playerSelection) {
+            if ((playerSelection == 'scissors' && computerSelection == 'rock') ||
+                (playerSelection == 'paper' && computerSelection == 'scissors') ||
+                (playerSelection == 'rock' && computerSelection == 'paper')) {
+                    return('YOU LOSE');
+                } else if (playerSelection === computerSelection) {
+                    return('ITS A DRAW');
+                } else {
+                    return ('YOU WIN');
+                }
+        }
+
+        console.log(playRound());
+    </script>
+</body>
+</html>
