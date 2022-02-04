@@ -8,6 +8,8 @@
 </head>
 <body>
     <script>
+        // takes the player input. Ensures it is a valid input.
+        // also changes the input to lower case
         function playerPlay() {
             let selection = prompt('Enter either scissors, paper or rock. Best out of 5');
             if (selection == null) {
@@ -26,6 +28,8 @@
             }
         }
 
+        // generates the computer input. 
+        // generates a random whole number between 1-3 and converts that to the 3 choices
         function computerPlay(min, max) {
             let randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
             let selection;
@@ -39,6 +43,9 @@
             return selection;
         }
         
+        // this is how 1 round is played
+        // compares the results of the first 2 functions and determines win, lose or draw
+        // also accepts inputs of null and '' and acts acordingly
         function playRound(player, computer) {
             if ((player == 'scissors' && computer == 'rock') ||
                 (player == 'paper' && computer == 'scissors') ||
@@ -56,6 +63,9 @@
                     return('Invalid round, try again')
         }
 
+        // this loops the playRound function 5 times
+        // it will not increase the count if the input is null, invalid
+        // after 5 rounds it determines the overall winner of if it was a draw
         function game() {
             let winOrLose;
             let playerCount = 0;
@@ -77,6 +87,7 @@
                         }
                 console.log(`After Round ${i + 1}, Player ${playerCount} || Computer ${computerCount}`)   
                 }
+                
                 if (playerCount > computerCount) {
                     console.log('You are the overall winner!');
                 } else if (computerCount > playerCount) {
