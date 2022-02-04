@@ -9,17 +9,21 @@
 <body>
     <script>
         function playerPlay() {
-            let selection = prompt('Enter either scissors, paper or rock');
+            let selection = prompt('Enter either scissors, paper or rock. Best out of 5');
             if (selection == null) {
                 alert('Cancelled');
-                return;
+                return null;
+            } else if (selection == '') {
+                alert('You must enter either scissors, paper or rock');
+                return '';
             } else {
                 selection = selection.toLowerCase();
             }
             if (selection === 'scissors' || selection === 'paper' || selection === 'rock') {
                 return selection;
             } else {
-                alert('Invalid selection');
+                alert('You must enter either scissors, paper or rock');
+                return '';
             }
         }
 
@@ -45,34 +49,47 @@
                             (player == 'paper' && computer == 'rock') ||
                             (player == 'rock' && computer == 'scissors')) {
                     return `You win! ${player} beats ${computer}`;
-                } else {
-                    return 'It\'s a draw!';
-                } 
+                } else if (player == computer) {
+                    return `It's a draw! You both picked ${player}`;
+                } else if (player == null) {
+                    return ('Game cancelled');
+                } else if (player == '');
+                    return('Invalid round, try again')
         }
 
         function game() {
             let winOrLose;
             let playerCount = 0;
             let computerCount = 0;
-            for (let i = 0; i < 5; i++) {
-                let computerSelection = computerPlay(1, 3);
-                let playerSelection = playerPlay();
-                console.log(playRound(playerSelection, computerSelection));
-                winOrLose = playRound(playerSelection, computerSelection);
-                    if  (winOrLose.includes('win')) {
-                        playerCount++;
-                    } else if (winOrLose.includes('lose')) {
-                        computerCount++;
-                    }
-                console.log(`Player ${playerCount} || Computer ${computerCount}`)
-            }
-            if (playerCount > computerCount) {
-                console.log('You are the overall winner!');
-            } else if (computerCount > playerCount) {
-                console.log('The computer is the overall winner!');
-            } else {
-                console.log('It was a draw overall!');
-            }
+                for (let i = 0; i < 5; i++) {
+                    let computerSelection = computerPlay(1, 3);
+                    let playerSelection = playerPlay();
+                    console.log(playRound(playerSelection, computerSelection));
+                    winOrLose = playRound(playerSelection, computerSelection);
+                        if (winOrLose.includes('cancelled')) {
+                            i = 4;
+                            return;
+                        } else if (winOrLose.includes('win')) {
+                            playerCount++;
+                        } else if (winOrLose.includes('lose')) {
+                            computerCount++;
+                        } else if (winOrLose.includes('Invalid')) {
+                            i--;
+                        }
+                        //if (i < 0) {
+                            //console.log(`Player ${playerCount} || Computer ${computerCount}`)
+                        //} else {
+                            console.log(`After Round ${i + 1}, Player ${playerCount} || Computer ${computerCount}`)
+                        //}
+                    
+                }
+                if (playerCount > computerCount) {
+                    console.log('You are the overall winner!');
+                } else if (computerCount > playerCount) {
+                    console.log('The computer is the overall winner!');
+                } else {
+                    console.log('It was a draw overall!');
+                }
         }
 
         game();
