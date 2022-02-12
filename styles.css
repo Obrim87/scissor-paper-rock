@@ -1,0 +1,51 @@
+body {
+    text-align: center;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    background: #464747;
+}
+
+.buttonContainer {
+    display: grid;
+    grid-gap: 30px;
+    grid-template-columns: 1fr 1fr 1fr;
+    width: 800px;
+    margin: 100px auto 100px auto;
+    color: white;
+    text-align: center;
+}
+
+.buttonContainer div {
+    border: solid 3px white;
+    padding-top: 15px;
+    border-radius: 8px;
+}
+
+.result {
+    width: 350px;
+    height: 50px;
+    margin: auto;
+    text-align: center;
+}
+
+.score {
+    text-align: center;
+}
+
+.resetBtn {
+    border: solid 2px white;
+    width: 100px;
+    margin: auto;
+    border-radius: 8px;
+}
+
+.resetBtn:hover, .buttonContainer div:hover {
+    background: white;
+    color:#464747;
+    cursor: pointer;
+}
+
+.resetBtn:active, .buttonContainer div:active {
+    background: #464747;
+    color: white;
+}

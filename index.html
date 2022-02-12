@@ -4,42 +4,82 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400&display=swap" rel="stylesheet">
     <title>Scissor/Paper/Rock Game</title>
+    <script src="https://kit.fontawesome.com/7336c0825e.js" crossorigin="anonymous"></script>
+
 </head>
 <body>
-    <script>
-        // takes the player input. Ensures it is a valid input..
-        // also changes the input to lower case
-        function playerPlay() {
-            let selection = prompt('Enter either scissors, paper or rock. Best out of 5');
-            if (selection == null) {
-                return null;
-            } else if (selection == '') {
-                alert('You must enter either scissors, paper or rock');
-                return '';
-            } else {
-                selection = selection.toLowerCase();
-            }
-            if (selection === 'scissors' || selection === 'paper' || selection === 'rock') {
-                return selection;
-            } else {
-                alert('You must enter either scissors, paper or rock');
-                return '';
-            }
-        }
+    <h1>Scissors Paper Rock</h1>
+    <h2>Make your selection. First to 5 wins!</h2>
+    <div class="buttonContainer">
+        <div id='scissors'>
+            <i class="fa-solid fa-hand-scissors fa-8x"></i>
+            <p>Scissors</p>
+        </div>
+        <div id="paper">
+            <i class="fa-solid fa-hand fa-8x fa-rotate-270"></i>
+            <p>Paper</p>
+        </div>
+        <div id="rock">
+            <i class="fa-solid fa-hand-back-fist fa-8x fa-rotate-270"></i>
+            <p>Rock</p>
+        </div>
+    </div>
+
+    <div>
+        <p style = 'font-size: 24px'><u>Result of current round:</u></p>
+        <p class='result'></p>
+    </div>
+    <div class='score'>
+        <p>Player: <span class='playerScore'></span></p>
+        <p>Computer: <span class='computerScore'></span></p>
+    </div><br>
+
+    <div class='finalResult'> </div><br>
+
+    <div class='resetBtn'>Reset</div>
+
+<script>
+        let buttonContainer = document.querySelector('.buttonContainer');
+        let scissorsBtn = document.querySelector('#scissors');
+        let paperBtn = document.querySelector('#paper');
+        let rockBtn = document.querySelector('#rock');
+        let results = document.querySelector('.result');
+        let playerScore = document.querySelector('.playerScore');
+        let computerScore = document.querySelector('.computerScore');
+        let finalResult = document.querySelector('.finalResult');
+        let resetBtn = document.querySelector('.resetBtn');
+        let playerCount = 0;
+        let computerCount = 0;
+
+        scissorsBtn.addEventListener('click', () => {
+            results.textContent = playRound('Scissors', computerPlay(1, 3))});
+
+        paperBtn.addEventListener('click', () => {
+            results.textContent = playRound('Paper', computerPlay(1, 3))});
+
+        rockBtn.addEventListener('click', () => {
+            results.textContent = playRound('Rock', computerPlay(1, 3))});
+
+        resetBtn.addEventListener('click', resetGame);
 
         // generates the computer input. 
         // generates a random whole number between 1-3 and converts that to the 3 choices
         function computerPlay(min, max) {
             let randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
             let selection;
-                if (randomNumber == 1) {
-                    selection = 'scissors'; 
-                } else if (randomNumber == 2) {
-                    selection = 'paper';
-                } else if (randomNumber == 3) {
-                    selection = 'rock';
-                }
+
+            if (randomNumber == 1) {
+                selection = 'Scissors'; 
+            } else if (randomNumber == 2) {
+                selection = 'Paper';
+            } else if (randomNumber == 3) {
+                selection = 'Rock';
+            }
             return selection;
         }
         
@@ -47,56 +87,59 @@
         // compares the results of the first 2 functions and determines win, lose or draw
         // also accepts inputs of null and '' and acts acordingly
         function playRound(player, computer) {
-            if ((player == 'scissors' && computer == 'rock') ||
-                (player == 'paper' && computer == 'scissors') ||
-                (player == 'rock' && computer == 'paper')) {
-                    return `You lose! ${computer} beats ${player}`;
-                } else if ((player == 'scissors' && computer == 'paper') ||
-                            (player == 'paper' && computer == 'rock') ||
-                            (player == 'rock' && computer == 'scissors')) {
-                    return `You win! ${player} beats ${computer}`;
-                } else if (player == computer) {
+
+            if ((player == 'Scissors' && computer == 'Rock') ||
+                        (player == 'Paper' && computer == 'Scissors') ||
+                        (player == 'Rock' && computer == 'Paper')) {
+                    computerCount += 1;
+                    computerScore.textContent = computerCount;
+                    if (computerCount == 5) {
+                        computerWins();
+                        return `You lose this round! ${computer} beats ${player}`;
+                    } else {
+                    return `You lose this round! ${computer} beats ${player}`;
+                    };
+            } else if ((player == 'Scissors' && computer == 'Paper') ||
+                        (player == 'Paper' && computer == 'Rock') ||
+                        (player == 'Rock' && computer == 'Scissors')) {
+                    playerCount += 1;
+                    playerScore.textContent = playerCount;
+                    if (playerCount == 5) {
+                        playerWins();
+                        return `You win this round! ${player} beats ${computer}`;
+                    } else {
+                    return `You win this round! ${player} beats ${computer}`;
+                    };
+            } else if (player == computer) {
                     return `It's a draw! You both picked ${player}`;
-                } else if (player == null) {
-                    return ('Game cancelled');
-                } else if (player == '');
-                    return('Invalid round, try again')
+            }
         }
 
-        // this loops the playRound function 5 times
-        // it will not increase the count if the input is null, invalid
-        // after 5 rounds it determines the overall winner of if it was a draw
-        function game() {
-            let winOrLose;
-            let playerCount = 0;
-            let computerCount = 0;
-                for (let i = 0; i < 5; i++) {
-                    let computerSelection = computerPlay(1, 3);
-                    let playerSelection = playerPlay();
-                    console.log(playRound(playerSelection, computerSelection));
-                    winOrLose = playRound(playerSelection, computerSelection);
-                        if (winOrLose.includes('cancelled')) {
-                            i = 4;
-                            return;
-                        } else if (winOrLose.includes('win')) {
-                            playerCount++;
-                        } else if (winOrLose.includes('lose')) {
-                            computerCount++;
-                        } else if (winOrLose.includes('Invalid')) {
-                            i--;
-                        }
-                console.log(`After Round ${i + 1}, Player ${playerCount} || Computer ${computerCount}`)   
-                }
-                
-                if (playerCount > computerCount) {
-                    console.log('You are the overall winner!');
-                } else if (computerCount > playerCount) {
-                    console.log('The computer is the overall winner!');
-                } else {
-                    console.log('It was a draw overall!');
-                }
+        function playerWins() {
+            finalResult.textContent = 'You\'re the winner! Congratulations!';
+            computerCount = 0;
+            playerCount = 0;
+            computerScore.textContent = computerCount;
+            playerScore.textContent = playerCount;
         }
-        game();
-    </script>
+
+        function computerWins() {
+            finalResult.textContent = 'The computer wins! You suck!';
+            computerCount = 0;
+            playerCount = 0;
+            computerScore.textContent = computerCount;
+            playerScore.textContent = playerCount;
+        }
+
+        function resetGame() {
+            results.textContent = 'Game has been reset';
+            computerCount = 0;
+            playerCount = 0;
+            computerScore.textContent = computerCount;
+            playerScore.textContent = playerCount;
+            finalResult.textContent = ' ';
+        }
+</script>
+    
 </body>
 </html>
