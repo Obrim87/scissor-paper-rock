@@ -87,7 +87,7 @@
         // compares the results of the first 2 functions and determines win, lose or draw
         // also accepts inputs of null and '' and acts acordingly
         function playRound(player, computer) {
-
+            finalResult.textContent = '';
             if ((player == 'Scissors' && computer == 'Rock') ||
                         (player == 'Paper' && computer == 'Scissors') ||
                         (player == 'Rock' && computer == 'Paper')) {
@@ -116,7 +116,8 @@
         }
 
         function playerWins() {
-            finalResult.textContent = 'You\'re the winner! Congratulations!';
+            finalResult.textContent = 'You are the winner! Congratulation!.\r\n';
+            finalResult.textContent += 'Make a selection to start a new game';
             computerCount = 0;
             playerCount = 0;
             computerScore.textContent = computerCount;
@@ -124,7 +125,8 @@
         }
 
         function computerWins() {
-            finalResult.textContent = 'The computer wins! You suck!';
+            finalResult.textContent = 'The computer wins! Better luck next time.\r\n';
+            finalResult.textContent += 'Make a selection to start a new game';
             computerCount = 0;
             playerCount = 0;
             computerScore.textContent = computerCount;

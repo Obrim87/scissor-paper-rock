@@ -49,3 +49,7 @@ body {
     background: #464747;
     color: white;
 }
+
+.finalResult {
+    white-space: pre; /* simply to allow text wrap in result. use along with \r\n */
+}
